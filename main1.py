@@ -1,15 +1,43 @@
-age = input("Введите возраст: ").strip()
+import flet as ft
 
-if age == "":
-    print("\033[33mВведите корректный возраст\033[0m")
+def main(page: ft.Page):
+    page.title = "Проверка возраста"
 
-elif age.isdigit():
-    age = int(age)
+    # поле ввода
+    age_input = ft.TextField(label="Введите возраст")
 
-    if age >= 18:
-        print("\033[32mДоступ разрешен\033[0m")
-    else:
-        print("\033[31mДоступ запрещен\033[0m")
+    # текст результата
+    result_text = ft.Text("")
 
-else:
-    print("\033[33mВведите корректный возраст\033[0m")
+    # функция проверки
+    def check_age(e):
+        age = age_input.value.strip()
+
+        if age == "":
+            result_text.value = "Введите корректный возраст"
+            result_text.color = "yellow"
+
+        elif age.isdigit():
+            age_int = int(age)
+
+            if age_int >= 18:
+                result_text.value = "Доступ разрешен"
+                result_text.color = "green"
+            else:
+                result_text.value = "Доступ запрещен"
+                result_text.color = "red"
+
+        else:
+            result_text.value = "Введите корректный возраст"
+            result_text.color = "yellow"
+
+        page.update()
+
+    # кнопка
+    check_button = ft.ElevatedButton("Проверить", on_click=check_age)
+
+    # добавляем на страницу
+    page.add(age_input, check_button, result_text)
+
+# запуск
+ft.app(target=main)
