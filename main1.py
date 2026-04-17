@@ -41,3 +41,7 @@ def main(page: ft.Page):
 
 # запуск
 ft.app(target=main)
+
+
+
+
